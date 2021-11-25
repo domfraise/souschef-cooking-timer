@@ -15,54 +15,6 @@ void main() {
   runApp(const MyApp());
 }
 
-void onStart() {
-  var count = 1000;
-  bool running = false;
-  WidgetsFlutterBinding.ensureInitialized();
-  final service = FlutterBackgroundService();
-  service.onDataReceived.listen((event) {
-    if (event!["action"] == "setAsForeground") {
-      service.setForegroundMode(true);
-      return;
-    }
-
-    if (event["action"] == "setAsBackground") {
-      service.setForegroundMode(false);
-    }
-
-    if (event["action"] == "stopService") {
-      service.stopBackgroundService();
-    }
-    if (event["action"] == "play") {
-      running = true;
-    }
-
-    if (event["action"] == "pause") {
-      running = false;
-    }
-    if (event["action"] == "updateDuration") {
-      count =event["duration"];
-    }
-  });
-
-  // bring to foreground
-  service.setForegroundMode(true);
-  Timer.periodic(Duration(seconds: 1), (timer) async {
-    if (!(await service.isServiceRunning())) timer.cancel();
-    service.setNotificationInfo(
-      title: "My App Service",
-      content: "Updated at ${DateTime.now()}",
-    );
-    if (running) {
-      count -= 1;
-    }
-
-    service.sendData(
-      {"current_date": DateTime.now().toIso8601String(), "count": count},
-    );
-  });
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -130,18 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Target Count:',
-                ),
-                Text(
-                  '$targetCounter',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ],
-            ),
             StreamBuilder<Map<String, dynamic>?>(
               stream: FlutterBackgroundService().onDataReceived,
               builder: (context, snapshot) {
@@ -210,4 +150,51 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+void onStart() {
+  var count = 1000;
+  bool running = false;
+  WidgetsFlutterBinding.ensureInitialized();
+  final service = FlutterBackgroundService();
+  service.onDataReceived.listen((event) {
+    if (event!["action"] == "setAsForeground") {
+      service.setForegroundMode(true);
+      return;
+    }
+
+    if (event["action"] == "setAsBackground") {
+      service.setForegroundMode(false);
+    }
+
+    if (event["action"] == "stopService") {
+      service.stopBackgroundService();
+    }
+    if (event["action"] == "play") {
+      running = true;
+    }
+
+    if (event["action"] == "pause") {
+      running = false;
+    }
+    if (event["action"] == "updateDuration") {
+      count =event["duration"];
+    }
+  });
+
+  // bring to foreground
+  service.setForegroundMode(true);
+  Timer.periodic(Duration(seconds: 1), (timer) async {
+    if (!(await service.isServiceRunning())) timer.cancel();
+    service.setNotificationInfo(
+      title: "My App Service",
+      content: "Updated at ${DateTime.now()}",
+    );
+    if (running) {
+      count -= 1;
+    }
+
+    service.sendData(
+      {"current_date": DateTime.now().toIso8601String(), "count": count},
+    );
+  });
 }
