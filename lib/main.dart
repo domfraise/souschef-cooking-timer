@@ -1,7 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:souschef_cooking_timer/components/countdown_view.dart';
+import 'package:souschef_cooking_timer/model/recipe.dart';
+import 'package:souschef_cooking_timer/model/timer_model.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +17,7 @@ void main() {
 
 void onStart() {
   var count = 1000;
+  bool running = false;
   WidgetsFlutterBinding.ensureInitialized();
   final service = FlutterBackgroundService();
   service.onDataReceived.listen((event) {
@@ -27,9 +33,15 @@ void onStart() {
     if (event["action"] == "stopService") {
       service.stopBackgroundService();
     }
+    if (event["action"] == "play") {
+      running = true;
+    }
 
+    if (event["action"] == "pause") {
+      running = false;
+    }
     if (event["action"] == "updateDuration") {
-      count = int.parse(event["duration"]);
+      count =event["duration"];
     }
   });
 
@@ -41,7 +53,9 @@ void onStart() {
       title: "My App Service",
       content: "Updated at ${DateTime.now()}",
     );
-    count -= 1;
+    if (running) {
+      count -= 1;
+    }
 
     service.sendData(
       {"current_date": DateTime.now().toIso8601String(), "count": count},
@@ -58,15 +72,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Timer'),
@@ -77,15 +82,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -94,29 +90,38 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String targetCounter = "0";
+  Duration targetDuration = Duration.zero;
+  bool timerRunning = false;
 
-  void _incrementCounter() {
+  void _setDuration() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      // _counter++;
+
       FlutterBackgroundService().sendData(
-        {"action": "updateDuration", "duration": targetCounter},
+        {"action": "updateDuration", "duration": targetDuration.inSeconds},
       );
+    });
+  }
+
+  void pause() {
+    setState(() {
+      FlutterBackgroundService().sendData(
+        {"action": "pause"},
+      );
+      timerRunning = false;
+    });
+  }
+
+  void play() {
+    setState(() {
+      FlutterBackgroundService().sendData(
+        {"action": "play"},
+      );
+      timerRunning = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -147,40 +152,61 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
 
                 final data = snapshot.data!;
+                var timerModel = TimerModel(Recipe.empty(), () {}, () {});
                 return Expanded(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Coundown: "),
-                          Text(data["count"].toString()),
-                        ],
-                      ),
-                      Expanded(
-                          child: Column(
-                            children: [
-                              Text("SetValue: "),
-                              TextField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textAlign: TextAlign.center,
-                                  onChanged: (value) {
-                                    targetCounter = value;
-                                    setState(() {});
-                                  }),
-                            ],
-                          ))
-                    ]));
+                    child: CountdownView(
+                        timer: timerModel,
+                        playOrPauseCallback: (timer) {
+                          if (timerRunning) {
+                            pause();
+                          } else {
+                            play();
+                          }
+                        },
+                        scheduleTimerCallback: () {},
+                        resetCallback: () {},
+                        durationTest: Duration(
+                          seconds: data["count"],
+                        ) //todo callbacks
+                        ));
               },
+            ),
+            Expanded(
+              child: buildTimePicker(),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.play_arrow),
+    );
+  }
+
+  Widget buildTimePicker() {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                "Duration",
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 8,
+            child: Container(
+              child: CupertinoTimerPicker(
+                initialTimerDuration: Duration.zero,
+                onTimerDurationChanged: (duration) {
+                  targetDuration = duration;
+                  _setDuration();
+                },
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

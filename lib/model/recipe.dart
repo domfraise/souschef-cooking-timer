@@ -12,6 +12,9 @@ class Recipe {
 
   Recipe(this.name, this.ingredients, this.documentId);
 
+  Recipe empty() {
+    return Recipe("", [], "");
+  }
 
   Duration get initialDuration {
     Duration longestDuration = Duration(seconds: 0);

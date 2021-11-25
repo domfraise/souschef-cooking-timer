@@ -1,10 +1,10 @@
 import 'dart:async';
 class Clock {
-  late Timer timer;
+  Timer? timer;
   StreamController<int> _streamController = StreamController.broadcast();
 
   void start() {
-    if (timer == null || !timer.isActive) {
+    if (timer == null || !timer!.isActive) {
       timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
         _streamController.add(1);
       });
@@ -18,7 +18,7 @@ class Clock {
   }
 
   bool isRunning(){
-    return timer != null && timer.isActive;
+    return timer != null && timer!.isActive;
   }
 
   Stream<int> getTickStream() {
