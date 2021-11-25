@@ -11,6 +11,7 @@ void main() {
 }
 
 void onStart() {
+  var count = 1000;
   WidgetsFlutterBinding.ensureInitialized();
   final service = FlutterBackgroundService();
   service.onDataReceived.listen((event) {
@@ -26,24 +27,28 @@ void onStart() {
     if (event["action"] == "stopService") {
       service.stopBackgroundService();
     }
+
+    if (event["action"] == "updateDuration") {
+      count = int.parse(event["duration"]);
+    }
   });
 
   // bring to foreground
   service.setForegroundMode(true);
-  var count = 1000;
   Timer.periodic(Duration(seconds: 1), (timer) async {
     if (!(await service.isServiceRunning())) timer.cancel();
     service.setNotificationInfo(
       title: "My App Service",
       content: "Updated at ${DateTime.now()}",
     );
-    count -=1;
+    count -= 1;
 
     service.sendData(
       {"current_date": DateTime.now().toIso8601String(), "count": count},
     );
   });
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -89,6 +94,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String targetCounter = "0";
 
   void _incrementCounter() {
     setState(() {
@@ -97,7 +103,10 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      // _counter++;
+      FlutterBackgroundService().sendData(
+        {"action": "updateDuration", "duration": targetCounter},
+      );
     });
   }
 
@@ -135,13 +144,19 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Count (s):',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Target Count:',
+                ),
+                Text(
+                  '$targetCounter',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),StreamBuilder<Map<String, dynamic>?>(
+            StreamBuilder<Map<String, dynamic>?>(
               stream: FlutterBackgroundService().onDataReceived,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -152,7 +167,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 final data = snapshot.data!;
                 DateTime? date = DateTime.tryParse(data["current_date"]);
-                return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,children: [Text(date.toString()), Text(data["count"].toString())]);
+                return Expanded(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Coundown: "),
+                          Text(data["count"].toString()),
+                        ],
+                      ),
+                      Expanded(
+                          child: Column(
+                            children: [
+                              Text("SetValue: "),
+                              TextField(
+                                  textCapitalization: TextCapitalization.sentences,
+                                  textAlign: TextAlign.center,
+                                  // controller: TextEditingController(),
+                                  onChanged: (value) {
+                                    targetCounter = value;
+                                    setState(() {});
+                                  }),
+                            ],
+                          ))
+                    ]));
               },
             ),
           ],
