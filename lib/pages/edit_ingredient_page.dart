@@ -85,7 +85,9 @@ class _EditIngredientPageState extends State<EditIngredientPage> {
               MaterialPageRoute(
                 builder: (context) => EditPhasePage.empty(
                       submitCallback: (Phase phase) {
-                        ingredient.phases.add(phase);
+                        setState(() {
+                          ingredient.phases.add(phase);
+                        });
                       },
                       deleteCallback: () {
                         Navigator.of(context).pop();
