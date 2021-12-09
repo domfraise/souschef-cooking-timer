@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:souschef_cooking_timer/model/clock.dart';
-import 'package:souschef_cooking_timer/model/ingredient_model.dart';
 import 'package:souschef_cooking_timer/model/recipe.dart';
-
-import 'timer_state.dart';
-
+import 'package:souschef_cooking_timer/model/timer_state.dart';
+import 'package:souschef_cooking_timer/service/background_service.dart';
 
 class TimerModel {
   Clock clock = Clock();
@@ -18,12 +16,15 @@ class TimerModel {
   Timer? scheduleTimer;
   Function showProgress;
 
-  TimerModel(this.recipe, this.alertCallback, this.showProgress) {
+  TimerModel(
+      {required this.recipe,
+      required this.alertCallback,
+      required this.showProgress}) {
     ingredientsChanged();
     listenToClock();
   }
 
-  set scheduledTime(TimeOfDay? time) {
+  set scheduledTime(TimeOfDay time) {
     _scheduledTime = time;
     scheduleTimer?.cancel();
     if (!hasStarted && _scheduledTime != null) {
@@ -39,9 +40,7 @@ class TimerModel {
     }
   }
 
-  int calculateWaitTime(TimeOfDay? finishTime) {
-    if (finishTime == null) return 0;
-
+  int calculateWaitTime(TimeOfDay finishTime) {
     var currentTime = TimeOfDay.now();
     var startingIn = (finishTime.minute + finishTime.hour * 60) -
         (currentTime.minute + currentTime.hour * 60) -
@@ -50,7 +49,7 @@ class TimerModel {
     return startingIn;
   }
 
-  TimeOfDay? get scheduledTime => _scheduledTime;
+  TimeOfDay get scheduledTime => _scheduledTime ?? TimeOfDay.now();
 
   bool isRunning() {
     return clock.isRunning();
@@ -59,22 +58,23 @@ class TimerModel {
   void start() {
     clock.start();
     hasStarted = true;
-    // BackgroundService.startTimer(this); //TODO start new timer from here
+    // BackgroundService.startTimer(this);
     showProgress();
   }
 
-  Stream<int> getTickStream(){
+  Stream<int> getTickStream() {
     return clock.getTickStream();
   }
 
   void listenToClock() {
     clock.getTickStream().listen((tick) {
-      if (scheduledTimeRemaining != null && scheduledTimeRemaining > Duration.zero) {
+      if (scheduledTimeRemaining != null &&
+          scheduledTimeRemaining > Duration.zero) {
         scheduledTimeRemaining -= Duration(seconds: 1);
       } else {
         recipe.ingredients
             .where((ingredient) => ingredient.state != TimerState.FINISHED)
-            .forEach((IngredientModel ingredient) {
+            .forEach((ingredient) {
           ingredient.decreaseDuration(tick);
         });
         if (totalTimeRemaining <= Duration.zero) {
@@ -130,7 +130,7 @@ class TimerModel {
   void reset() {
     clock.stop();
     recipe.reset();
-    scheduledTime = null;
+    _scheduledTime = null;
     scheduledTimeRemaining = Duration.zero;
     ingredientsChanged();
     hasStarted = false;

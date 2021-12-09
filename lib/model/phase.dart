@@ -1,5 +1,4 @@
-
-import 'timer_state.dart';
+import 'package:souschef_cooking_timer/model/timer_state.dart';
 
 class Phase {
   final Duration initialDuration;

@@ -5,19 +5,19 @@ class DurationView extends StatelessWidget {
   final double fontSize;
   final Color textColor;
 
-  DurationView({required this.duration, this.fontSize=30, this.textColor=Colors.black});
+  DurationView({required this.duration, this.fontSize: 10, this.textColor: Colors.black});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Text(
         getDisplayTime(duration),
-        style: Theme.of(context).textTheme.headline1?.copyWith(
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            color: textColor == null
-                ? Theme.of(context).colorScheme.secondary
-                : textColor),
+        // style: Theme.of(context).textTheme.headline2.copyWith(
+        //     fontSize: fontSize,
+        //     fontWeight: FontWeight.bold,
+        //     color: textColor == null
+        //         ? Theme.of(context).colorScheme.secondary
+        //         : textColor),
       ),
     );
   }
