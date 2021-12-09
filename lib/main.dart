@@ -54,9 +54,11 @@ class SousChefAppState extends State<SousChefApp> {
     firestore.getUserDocument();
     _configureNotifications();
     currentRecipe = Recipe.empty();
-    timerFuture = firestore
-        .getFirstRecipe(notify)
-        .then((value) => TimerModel(recipe:value, alertCallback:notify, showProgress:_showProgressNotification));
+    setState(() {
+      timerFuture = firestore
+          .getFirstRecipe(notify)
+          .then((value) => TimerModel(recipe:value, alertCallback:notify, showProgress:_showProgressNotification));
+    });
   }
 
   @override
