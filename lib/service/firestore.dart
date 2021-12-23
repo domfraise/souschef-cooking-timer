@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'dart:developer';
 import 'package:souschef_cooking_timer/model/recipe.dart';
 
 class FirestoreService {
@@ -38,21 +38,26 @@ class FirestoreService {
   }
 
   Future<Recipe> getFirstRecipe(Function alertCallback) async {
-    //todo get from docId
-    String userId = await getUserDocument();
-    var documents = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .collection("recipes")
-        .snapshots();
+    try {
+      String userId = await getUserDocument();
+      var documents = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection("recipes")
+          .snapshots();
 
-    if(documents.length == 0) {
-      return createRecipe(Recipe.empty());
+      if(documents.length == 0) {
+        return createRecipe(Recipe.empty());
+      }
+      var firstDocumentSnapshot = await documents.first;
+
+      var recipeEntry = firstDocumentSnapshot.docs.first;
+      return Recipe.fromJson(recipeEntry.data(), recipeEntry.id, alertCallback);
+    } catch (exception) {
+      log("ERROR fetching first recipe");
+      log(exception.toString());
+      return Recipe.empty();
     }
-    var firstDocumentSnapshot = await documents.first;
-
-    var recipeEntry = firstDocumentSnapshot.docs.first;
-    return Recipe.fromJson(recipeEntry.data(), recipeEntry.id, alertCallback);
 
   }
   Future<Recipe> createRecipe(Recipe newRecipe) {

@@ -35,9 +35,10 @@ class Recipe {
       : name = "New Recipe", ingredients = [], documentId = "NO DOC-ID";
 
   static Recipe fromJson(Map<String, dynamic> json, String documentId, Function alertCallback) {
+    var ingredients = json['ingredients'] ?? [];
     return Recipe(
-        json['name'],
-        List<IngredientModel>.from(json['ingredients']
+        json['name'] ?? "New Recipe",
+        List<IngredientModel>.from(ingredients
             .map((ingredient) =>
                 IngredientModel.fromJson(ingredient, alertCallback))
             .toList()),
