@@ -43,17 +43,17 @@ class FirestoreService {
     var recipeSnapshots = await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
-        .collection("recipes")
-        .doc();
-    var documents = recipeSnapshots.snapshots();
+        .collection("recipes").snapshots()
+        ;
+    var documents = recipeSnapshots;
     if(documents.length == 0) {
       return createRecipe(Recipe.empty());
     }
     var documentSnapshot = await documents.first;
-    if (documentSnapshot.data() == null) {
+    if (documentSnapshot.docs == null) {
       return Recipe.empty();
     }
-    return Recipe.fromJson(documentSnapshot.data() ?? {}, documentSnapshot.id, alertCallback);
+    return Recipe.fromJson(documentSnapshot.docs.first.data(), documentSnapshot.docs.first.id, alertCallback);
 
   }
   Future<Recipe> createRecipe(Recipe newRecipe) {
@@ -70,9 +70,9 @@ class FirestoreService {
         .collection('users')
         .doc(userId)
         .collection("recipes")
-        .doc();
+        .doc().snapshots();
     List<Recipe> recipes = [];
-    recipeSnapshots.snapshots().forEach((document) {
+    recipeSnapshots.forEach((document) {
       recipes.add(
 
         Recipe.fromJson(document.data() ?? {}, document.id, alertCallback));
