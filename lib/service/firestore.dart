@@ -40,20 +40,19 @@ class FirestoreService {
   Future<Recipe> getFirstRecipe(Function alertCallback) async {
     //todo get from docId
     String userId = await getUserDocument();
-    var recipeSnapshots = await FirebaseFirestore.instance
+    var documents = await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
-        .collection("recipes").snapshots()
-        ;
-    var documents = recipeSnapshots;
+        .collection("recipes")
+        .snapshots();
+
     if(documents.length == 0) {
       return createRecipe(Recipe.empty());
     }
-    var documentSnapshot = await documents.first;
-    if (documentSnapshot.docs == null) {
-      return Recipe.empty();
-    }
-    return Recipe.fromJson(documentSnapshot.docs.first.data(), documentSnapshot.docs.first.id, alertCallback);
+    var firstDocumentSnapshot = await documents.first;
+
+    var recipeEntry = firstDocumentSnapshot.docs.first;
+    return Recipe.fromJson(recipeEntry.data(), recipeEntry.id, alertCallback);
 
   }
   Future<Recipe> createRecipe(Recipe newRecipe) {
