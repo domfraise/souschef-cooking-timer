@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
   }
 
-  void playTimer(timer) {
+  void playTimer(TimerModel timer) {
     if (timer.hasStarted) {
       timer.resume();
     } else {

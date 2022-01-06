@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:souschef_cooking_timer/model/clock.dart';
 import 'package:souschef_cooking_timer/model/recipe.dart';
 import 'package:souschef_cooking_timer/model/timer_state.dart';
@@ -62,8 +63,7 @@ class TimerModel {
   void start() {
     clock.start();
     hasStarted = true;
-    // BackgroundService.startTimer(this);
-    // showProgress(); //notifications
+    startService();
   }
 
   Stream<int> getTickStream() {
@@ -91,12 +91,12 @@ class TimerModel {
 
   void pause() {
     clock.stop();
-    // BackgroundService.stopService();
+    stopService();
   }
 
   void resume() {
     clock.start();
-    // BackgroundService.startTimer(this);
+    startService();
   }
 
   void alert() {
@@ -138,6 +138,17 @@ class TimerModel {
     scheduledTimeRemaining = Duration.zero;
     ingredientsChanged();
     hasStarted = false;
-    // BackgroundService.stopService();
+    stopService();
   }
+
+  void stopService() {
+    FlutterBackgroundService().sendData({"action": "stopService"});
+  }
+
+  void startService() {
+    final service = FlutterBackgroundService();
+    service.start();
+    service.sendData({"action": "updateDuration", "duration": totalTimeRemaining.inSeconds});
+  }
+
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 // import 'package:audioplayers/audio_cache.dart';
@@ -5,6 +6,7 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:souschef_cooking_timer/components/duration_view.dart';
 import 'package:souschef_cooking_timer/components/intro_slider.dart';
@@ -13,6 +15,7 @@ import 'package:souschef_cooking_timer/model/notification_model.dart';
 import 'package:souschef_cooking_timer/model/recipe.dart';
 import 'package:souschef_cooking_timer/model/timer_model.dart';
 import 'package:souschef_cooking_timer/pages/recipes_page.dart';
+import 'package:souschef_cooking_timer/service/background_service.dart';
 import 'package:souschef_cooking_timer/service/firestore.dart';
 import 'firebase_options.dart';
 
@@ -22,13 +25,77 @@ var flutterLocalNotificationsPlugin;
 
 void main() async {
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
   WidgetsFlutterBinding.ensureInitialized();
+  initializeService();
+
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(SousChefApp());
 }
+Future<void> initializeService() async {
+  final service = FlutterBackgroundService();
+  await service.configure(
+    androidConfiguration: AndroidConfiguration(
+      onStart: onStart,
+      autoStart: true,
+      isForegroundMode: true,
+    ),
+    iosConfiguration: IosConfiguration(
+      autoStart: true,
+      onForeground: onStart,
+      onBackground: onIosBackground,
+    ),
+  );
+}
 
+// to ensure this executed
+// run app from xcode, then from xcode menu, select Simulate Background Fetch
+void onIosBackground() { //TODO test when testing IOS
+  WidgetsFlutterBinding.ensureInitialized();
+  print('FLUTTER BACKGROUND FETCH');
+}
+
+void onStart() {
+  var totalTimeRemaining = 0;
+  WidgetsFlutterBinding.ensureInitialized();
+  final service = FlutterBackgroundService();
+  service.onDataReceived.listen((event) {
+    if (event!["action"] == "setAsForeground") {
+      service.setForegroundMode(true);
+      return;
+    }
+
+    if (event["action"] == "setAsBackground") {
+      service.setForegroundMode(false);
+    }
+
+    if (event["action"] == "stopService") {
+      service.stopBackgroundService();
+    }
+
+    if (event["action"] == "updateDuration") {
+      totalTimeRemaining = event["duration"];
+    }
+  });
+
+  // bring to foreground
+  service.setForegroundMode(true);
+  Timer.periodic(Duration(seconds: 1), (timer) async {
+    if (!(await service.isServiceRunning())) timer.cancel();
+    service.setNotificationInfo(
+      title: "My App Service",
+      content: "Remaining: ${totalTimeRemaining}",
+    );
+    totalTimeRemaining -= 1;
+
+    service.sendData(
+      {"current_date": DateTime.now().toIso8601String(), "count": totalTimeRemaining},
+    );
+  });
+}
 class SousChefApp extends StatefulWidget {
   @override
   SousChefAppState createState() {
