@@ -63,7 +63,7 @@ class TimerModel {
     clock.start();
     hasStarted = true;
     // BackgroundService.startTimer(this);
-    showProgress();
+    // showProgress(); //notifications
   }
 
   Stream<int> getTickStream() {

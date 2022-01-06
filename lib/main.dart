@@ -204,9 +204,9 @@ class SousChefAppState extends State<SousChefApp> {
 
   void muteAlarm() {
     // audioPlayer?.pause();
-    // setState(() {
-    //   alerting = false;
-    // });
+    setState(() {
+      alerting = false;
+    });
   }
 
   Future<void> _showProgressNotification() async {
