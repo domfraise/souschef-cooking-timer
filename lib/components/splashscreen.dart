@@ -14,10 +14,8 @@ class SplashScreen extends StatelessWidget {
             ),
             Text(
               "Sous Chef",
-              // style: Theme.of(context)
-              //     .textTheme
-              //     .title
-              //     .copyWith(fontSize: 50, color: Theme.of(context).colorScheme.onPrimary),
+              style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold)
+
             ),
             CircularProgressIndicator()
           ],

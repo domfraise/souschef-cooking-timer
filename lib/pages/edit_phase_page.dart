@@ -118,7 +118,6 @@ class _EditPhasePageState extends State<EditPhasePage> {
           Expanded(
             flex: 8,
             child: Container(
-              color: Theme.of(context).backgroundColor,
               child: CupertinoTimerPicker(
                 initialTimerDuration: selectedDuration,
                 onTimerDurationChanged: (duration) {
