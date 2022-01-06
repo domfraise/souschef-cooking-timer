@@ -110,8 +110,10 @@ class SousChefAppState extends State<SousChefApp> {
         //open recipe by id
         var recipeId = routeSettings.name?.replaceFirst('/', '');
         timerFuture.then((timer) => timer.pause());
-        timerFuture = getRecipe(recipeId!).then(
-            (recipe) => TimerModel(recipe:recipe, alertCallback:notify, showProgress:_showProgressNotification));
+        setState(() {
+          timerFuture = getRecipe(recipeId!).then(
+                  (recipe) => TimerModel(recipe:recipe, alertCallback:notify, showProgress:_showProgressNotification));
+        });
         return MaterialPageRoute(
           builder: (context) => HomePage(
             notify: notify,
@@ -133,8 +135,7 @@ class SousChefAppState extends State<SousChefApp> {
   }
 
   Future<Recipe> getRecipe(String recipeReference) async {
-    var recipes = await firestore.getRecipes(notify);
-    return recipes.firstWhere((recipe) => recipe.documentId == recipeReference);
+    return firestore.getRecipe(recipeReference, notify);
   }
 
   saveRecipe(Recipe recipe) {

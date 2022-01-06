@@ -68,20 +68,10 @@ class FirestoreService {
     });
   }
 
-  Future<List<Recipe>> getRecipes(Function alertCallback) async {
-    String userId = await getUserDocument();
-    var recipeSnapshots = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .collection("recipes")
-        .doc().snapshots();
-    List<Recipe> recipes = [];
-    recipeSnapshots.forEach((document) {
-      recipes.add(
 
-        Recipe.fromJson(document.data() ?? {}, document.id, alertCallback));
-    });
-    return recipes;
+  Future<Recipe> getRecipe(String recipeDocumentId, Function alertCallback) async {
+    var future = await FirebaseFirestore.instance.collection("users").doc(userDocumentId).collection("recipes").doc(recipeDocumentId).get();
+    return Recipe.fromJson(future.data()?? {}, recipeDocumentId, alertCallback);
   }
 
   Stream<List<Recipe>> getRecipesStream(Function alertCallback) {
