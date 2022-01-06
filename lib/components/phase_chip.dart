@@ -32,7 +32,7 @@ class PhaseChip extends StatelessWidget {
                 phase.name,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-                // style: Theme.of(context).textTheme.subhead.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
               ),
               DurationView(
                 duration: phase.timeRemaining,

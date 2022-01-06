@@ -24,11 +24,11 @@ class TimerModel {
     listenToClock();
   }
 
-  set scheduledTime(TimeOfDay time) {
+  set scheduledTime(TimeOfDay? time) {
     _scheduledTime = time;
     scheduleTimer?.cancel();
     if (!hasStarted && _scheduledTime != null) {
-      this.scheduledTimeRemaining = Duration(minutes: calculateWaitTime(time));
+      this.scheduledTimeRemaining = Duration(minutes: calculateWaitTime(time!));
       scheduleTimer = Timer(scheduledTimeRemaining, () {
         _scheduledTime = null;
         alertCallback("Scheduled Timer Starting", recipe.name + "Starting now");

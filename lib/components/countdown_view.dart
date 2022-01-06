@@ -31,7 +31,7 @@ class CountdownView extends StatelessWidget {
                 children: [
                   Text(
                     "Total Time Remaining",
-                    // style: Theme.of(context).textTheme.subhead,
+                    style: Theme.of(context).textTheme.headline5,
                   ),
                   DurationView(
                     duration: timer.totalTimeRemaining,
@@ -105,7 +105,7 @@ class CountdownView extends StatelessWidget {
                 children: [
                   Text(
                       "Up Next: ${timer.recipe.getNextAlertingPhase().ingredientName} - ${timer.recipe.getNextAlertingPhase().phaseName}",
-                      // style: Theme.of(context).textTheme.subhead
+                      style: Theme.of(context).textTheme.subtitle2
                   ),
                   DurationView(
                     duration:

@@ -228,13 +228,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         });
   }
 
-  _showScheduleTimerDialogue(timer) {
+  _showScheduleTimerDialogue(TimerModel timer) {
     showDialog(
         context: context,
         builder: (context) => ScheduleTimerDialogue(
                 "Finish At", timer.scheduledTime, (selectedTime) {
               setState(() {
-                timer.scheduledTime = selectedTime;
+                timer.scheduledTime = selectedTime ?? TimeOfDay.now();
               });
             }));
   }

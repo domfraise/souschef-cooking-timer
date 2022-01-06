@@ -43,7 +43,7 @@ class _EditPhasePageState extends State<EditPhasePage> {
               onPressed: submit,
               child: Icon(
                 Icons.done,
-                // color: Theme.of(context).buttonTheme.colorScheme.onPrimary,
+                color: Colors.white,
               )),
           PopupMenuButton(onSelected: (buttonPressed) {
             switch (buttonPressed) {
@@ -90,7 +90,6 @@ class _EditPhasePageState extends State<EditPhasePage> {
           decoration: InputDecoration(hintText: "e.g. Boil..."),
           textCapitalization: TextCapitalization.sentences,
           textAlign: TextAlign.center,
-          // style: Theme.of(context).textTheme.headline,
           controller: nameController,
           onChanged: (value) {
             widget.phase.name = value;
@@ -111,7 +110,7 @@ class _EditPhasePageState extends State<EditPhasePage> {
               padding: EdgeInsets.all(10),
               child: Text(
                 "Duration",
-                // style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
               ),
             ),
           ),
@@ -143,7 +142,7 @@ class _EditPhasePageState extends State<EditPhasePage> {
                 padding: EdgeInsets.all(10),
                 child: Text(
                   "Notes",
-                  // style: Theme.of(context).textTheme.subhead,
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
             ),
@@ -154,11 +153,11 @@ class _EditPhasePageState extends State<EditPhasePage> {
                   padding: EdgeInsets.all(5),
                   child: TextField(
                     textCapitalization: TextCapitalization.sentences,
-                    decoration: InputDecoration(hintText: "e.g. 200°c"),
+                    decoration: InputDecoration(hintText: "e.g. Cook at 200°c"),
                     keyboardType: TextInputType.multiline,
                     maxLines: 5,
                     textAlign: TextAlign.center,
-                    // style: Theme.of(context).textTheme.headline,
+                    style: Theme.of(context).textTheme.subtitle1,
                     controller: notesController,
                   ),
                 ),

@@ -39,7 +39,7 @@ class RecipeView extends StatelessWidget {
                 flex: 8,
                 child: Text(
                   recipe.name,
-                  // style: Theme.of(context).textTheme.headline,
+                  style: Theme.of(context).textTheme.headline5,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -92,7 +92,7 @@ class RecipeView extends StatelessWidget {
                   padding: EdgeInsets.all(5),
                   child: Text(
                     ingredient.name,
-                    // style: Theme.of(context).textTheme.subtitle,
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
                 Container(

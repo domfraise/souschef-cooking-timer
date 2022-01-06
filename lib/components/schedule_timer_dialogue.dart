@@ -40,7 +40,7 @@ class _ScheduleTimerDialogueState extends State<ScheduleTimerDialogue> {
             },
             child: Text(
               selectedTime == null ? "-- : --" : selectedTime!.format(context),
-              // style: Theme.of(context).textTheme.button.copyWith(fontSize: 30),
+              style: TextStyle(fontSize: 30)
             ),
           ),
           FlatButton.icon(
