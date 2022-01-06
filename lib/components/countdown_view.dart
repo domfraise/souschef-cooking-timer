@@ -39,13 +39,13 @@ class CountdownView extends StatelessWidget {
                     textColor: Theme.of(context).colorScheme.secondary,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Expanded(
-                        flex: 3,
+                        flex: 4,
                         child: FlatButton.icon(
                           icon: Icon(Icons.schedule),
-                          label: timer.scheduledTime == null
+                          label: !timer.isScheduled()
                               ? Text("Schedule", textScaleFactor: 0.95)
                               : DurationView(
                                   duration: timer.scheduledTimeRemaining,
@@ -55,29 +55,26 @@ class CountdownView extends StatelessWidget {
                           },
                         ),
                       ),
-                      Expanded(
-                        flex: 4,
-                        child: FlatButton(
-                          color: Theme.of(context).primaryColor,
-                          shape: CircleBorder(),
-                          child: timer.isRunning()
-                              ? Icon(
-                                  Icons.pause,
-                                  size: 50,
-                                  color: Colors.white,
-                                )
-                              : Icon(
-                                  Icons.play_arrow,
-                                  size: 50,
-                                  color: Colors.white,
-                                ),
-                          onPressed: () {
-                            playOrPauseCallback(timer);
-                          },
+                      FlatButton(
+                        color: Theme.of(context).primaryColor,
+                        shape: CircleBorder(),
+                        child: timer.isRunning()
+                            ? Icon(
+                          Icons.pause,
+                          size: 50,
+                          color: Colors.white,
+                        )
+                            : Icon(
+                          Icons.play_arrow,
+                          size: 50,
+                          color: Colors.white,
                         ),
+                        onPressed: () {
+                          playOrPauseCallback(timer);
+                        },
                       ),
                       Expanded(
-                        flex: 3,
+                        flex: 4,
                         child: FlatButton.icon(
                           icon: Icon(Icons.restore),
                           label: Text(

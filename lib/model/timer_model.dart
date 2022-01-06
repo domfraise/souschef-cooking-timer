@@ -51,6 +51,10 @@ class TimerModel {
 
   TimeOfDay get scheduledTime => _scheduledTime ?? TimeOfDay.now();
 
+  bool isScheduled(){
+    return _scheduledTime != null;
+  }
+
   bool isRunning() {
     return clock.isRunning();
   }
