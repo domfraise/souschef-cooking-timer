@@ -12,12 +12,9 @@ class DurationView extends StatelessWidget {
     return Container(
       child: Text(
         getDisplayTime(duration),
-        // style: Theme.of(context).textTheme.headline2.copyWith(
-        //     fontSize: fontSize,
-        //     fontWeight: FontWeight.bold,
-        //     color: textColor == null
-        //         ? Theme.of(context).colorScheme.secondary
-        //         : textColor),
+        style: TextStyle(fontSize: this.fontSize,
+            fontWeight: FontWeight.bold,
+            color:textColor == null ? Theme.of(context).colorScheme.secondary : textColor )
       ),
     );
   }
