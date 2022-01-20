@@ -40,11 +40,11 @@ Future<void> initializeService() async {
   await service.configure(
     androidConfiguration: AndroidConfiguration(
       onStart: onStart,
-      autoStart: true,
+      autoStart: false,
       isForegroundMode: true,
     ),
     iosConfiguration: IosConfiguration(
-      autoStart: true,
+      autoStart: false,
       onForeground: onStart,
       onBackground: onIosBackground,
     ),
@@ -60,16 +60,23 @@ void onIosBackground() { //TODO test when testing IOS
 
 void onStart() {
   var totalTimeRemaining = 0;
+  var timeUntilNextAlert = 0;
+  var running = true;
   WidgetsFlutterBinding.ensureInitialized();
   final service = FlutterBackgroundService();
+
+  service.sendData({"action": "serviceReady"});
+
   service.onDataReceived.listen((event) {
     if (event!["action"] == "setAsForeground") {
       service.setForegroundMode(true);
+      running = true;
       return;
     }
 
     if (event["action"] == "setAsBackground") {
       service.setForegroundMode(false);
+      running = false;
     }
 
     if (event["action"] == "stopService") {
@@ -77,7 +84,8 @@ void onStart() {
     }
 
     if (event["action"] == "updateDuration") {
-      totalTimeRemaining = event["duration"];
+      totalTimeRemaining = event["totalTimeRemaining"];
+      timeUntilNextAlert = event["timeUntilNextAlert"];
     }
   });
 
@@ -86,14 +94,19 @@ void onStart() {
   Timer.periodic(Duration(seconds: 1), (timer) async {
     if (!(await service.isServiceRunning())) timer.cancel();
     service.setNotificationInfo(
-      title: "My App Service",
+      title: "Ongoing Timer",
       content: "Remaining: ${totalTimeRemaining}",
     );
-    totalTimeRemaining -= 1;
+    if (running) {
+      totalTimeRemaining -= 1;
+      timeUntilNextAlert -=1;
+    }
 
-    service.sendData(
-      {"current_date": DateTime.now().toIso8601String(), "count": totalTimeRemaining},
-    );
+    if(timeUntilNextAlert <= 0 ) {
+      service.sendData(
+        {"totalTimeRemaining": totalTimeRemaining},
+      );
+    }
   });
 }
 class SousChefApp extends StatefulWidget {
@@ -102,7 +115,8 @@ class SousChefApp extends StatefulWidget {
     return new SousChefAppState();
   }
 }
-
+//todo stop service at end of timer
+//todo update duration when app comes to forground
 
 class SousChefAppState extends State<SousChefApp> {
   FirestoreService firestore = FirestoreService();
@@ -228,6 +242,7 @@ class SousChefAppState extends State<SousChefApp> {
   }
 
   void notify(String title, String action) {
+    timerFuture.then((value) => value.updateDurationInService());
     _showNotification(title, action);
     playNotificationSound();
     setState(() {

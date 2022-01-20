@@ -5,7 +5,6 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:souschef_cooking_timer/model/clock.dart';
 import 'package:souschef_cooking_timer/model/recipe.dart';
 import 'package:souschef_cooking_timer/model/timer_state.dart';
-import 'package:souschef_cooking_timer/service/background_service.dart';
 
 class TimerModel {
   Clock clock = Clock();
@@ -87,16 +86,25 @@ class TimerModel {
         }
       }
     });
+
+    listenToService();
+  }
+  void listenToService(){
+    FlutterBackgroundService().onDataReceived.forEach((element) {
+      if(element != null && element['action'] == "serviceReady") {
+        updateDurationInService();
+      }
+    });
   }
 
   void pause() {
     clock.stop();
-    stopService();
+    sendServiceToBackground();
   }
 
   void resume() {
     clock.start();
-    startService();
+    sendServiceToForground();
   }
 
   void alert() {
@@ -141,6 +149,15 @@ class TimerModel {
     stopService();
   }
 
+  Duration getTimeUntilNextAlert(){
+    return recipe.getNextAlertingPhase().timeTillNextAlert;
+  }
+  void sendServiceToForground() {
+    FlutterBackgroundService().sendData({"action": "setAsForeground"});
+  }
+  void sendServiceToBackground() {
+    FlutterBackgroundService().sendData({"action": "setAsBackground"});
+  }
   void stopService() {
     FlutterBackgroundService().sendData({"action": "stopService"});
   }
@@ -148,7 +165,13 @@ class TimerModel {
   void startService() {
     final service = FlutterBackgroundService();
     service.start();
-    service.sendData({"action": "updateDuration", "duration": totalTimeRemaining.inSeconds});
+    _updateDurationByService(service);
   }
 
+  void updateDurationInService(){
+    _updateDurationByService(FlutterBackgroundService());
+  }
+  void _updateDurationByService(FlutterBackgroundService service) {
+    service.sendData({"action": "updateDuration", "timeUntilNextAlert": getTimeUntilNextAlert().inSeconds, "totalTimeRemaining": totalTimeRemaining.inSeconds});
+  }
 }

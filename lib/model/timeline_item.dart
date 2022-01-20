@@ -3,7 +3,7 @@ class TimelineItem {
   final Duration timeUntilStart;
   final String phaseName;
   final String ingredientName;
-  get timeTillNextAlert {
+  Duration get timeTillNextAlert {
     return timeUntilStart <= Duration.zero ? timeRemaining : timeUntilStart;
   }
 

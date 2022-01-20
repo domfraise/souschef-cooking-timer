@@ -106,7 +106,7 @@ class CountdownView extends StatelessWidget {
                   ),
                   DurationView(
                     duration:
-                        timer.recipe.getNextAlertingPhase().timeTillNextAlert,
+                        timer.getTimeUntilNextAlert(),
                     fontSize: 30,
                     textColor: Theme.of(context).colorScheme.onSurface,
                   )
