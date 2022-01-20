@@ -91,8 +91,18 @@ class TimerModel {
   }
   void listenToService(){
     FlutterBackgroundService().onDataReceived.forEach((element) {
-      if(element != null && element['action'] == "serviceReady") {
+      if (element == null) {
+        return;
+      } else if (element['action'] == "serviceReady") {
         updateDurationInService();
+      } else if (element['action'] == "phaseComplete") {
+        var serviceTotalTimeRemaining = element['totalTimeRemaining'];
+        if(serviceTotalTimeRemaining < totalTimeRemaining.inSeconds) {
+          print("app lag detected");
+          clock.forceTicks(totalTimeRemaining.inSeconds - serviceTotalTimeRemaining);
+        }
+
+
       }
     });
   }

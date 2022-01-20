@@ -102,7 +102,7 @@ void onStart() {
     }
 
     if(timeUntilNextAlert <= 0 ) {
-      service.sendData({"totalTimeRemaining": totalTimeRemaining});
+      service.sendData({"action":"phaseCompleted", "totalTimeRemaining": totalTimeRemaining});
     }
 
     if (totalTimeRemaining <= 0) {
