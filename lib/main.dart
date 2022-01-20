@@ -65,7 +65,6 @@ void onStart() {
   WidgetsFlutterBinding.ensureInitialized();
   final service = FlutterBackgroundService();
 
-  service.sendData({"action": "serviceReady"});
 
   service.onDataReceived.listen((event) {
     if (event!["action"] == "setAsForeground") {
@@ -103,12 +102,15 @@ void onStart() {
     }
 
     if(timeUntilNextAlert <= 0 ) {
-      service.sendData(
-        {"totalTimeRemaining": totalTimeRemaining},
-      );
+      service.sendData({"totalTimeRemaining": totalTimeRemaining});
+    }
+
+    if (totalTimeRemaining <= 0) {
       service.stopBackgroundService();
     }
   });
+
+  service.sendData({"action": "serviceReady"});
 }
 class SousChefApp extends StatefulWidget {
   @override

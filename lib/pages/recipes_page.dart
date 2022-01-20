@@ -46,11 +46,6 @@ class _RecipesPageState extends State<RecipesPage> {
                                 AsyncSnapshot<TimerModel> snapshot) {
                               if (snapshot.hasData &&
                                   snapshot.data!.isRunning()) {
-                                snapshot.data!.getTickStream().listen((value) {
-                                  setState(() {
-                                    {}
-                                  });
-                                });
 
                                 return buildCurrentTimerView(snapshot.data!);
                               } else {
