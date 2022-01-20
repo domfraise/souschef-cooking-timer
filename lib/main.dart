@@ -106,6 +106,7 @@ void onStart() {
       service.sendData(
         {"totalTimeRemaining": totalTimeRemaining},
       );
+      service.stopBackgroundService();
     }
   });
 }
@@ -115,8 +116,6 @@ class SousChefApp extends StatefulWidget {
     return new SousChefAppState();
   }
 }
-//todo stop service at end of timer
-//todo update duration when app comes to forground
 
 class SousChefAppState extends State<SousChefApp> {
   FirestoreService firestore = FirestoreService();
