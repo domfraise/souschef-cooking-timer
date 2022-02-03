@@ -4,13 +4,23 @@ jobs:
   build-app-bundle:
     runs-on: ubuntu-latest
     env:
-      FLUTTER_FIRE: ${{secrets.FLUTTERFIRE_CONFIG}}
+      ANDROID_API_KEY: ${{secrets.ANDROID_API_KEY}}
+      ANDROID_APP_ID: ${{secrets.ANDROID_APPID}}
+      ANDROID_DATABASE_URL: ${{secrets.ANDROID_DATABASE_URL}}
+      ANDROID_MESSAGE_SENDER_URL: ${{secrets.ANDROID_MESSAGE_SENDER_URL}}
+      ANDROID_PROJECT_ID: ${{secrets.ANDROID_PROJECT_ID}}
+      ANDROID_STORAGE_BUCKET: ${{secrets.ANDROID_STORAGE_BUCKET}}
     steps:
       - uses: actions/checkout@v2
       - run: |
           pwd
           ls
-          sed -i ''  "s/\/\/<FLUTTERFIRE_CONFIG>/$FLUTTER_FIRE/" 'lib/firebase_options.dart'
+          sed -i ''  "s/<ANDROID_API_KEY>/$ANDROID_API_KEY/" 'lib/firebase_options.dart'
+          sed -i ''  "s/<ANDROID_APP_ID>/$ANDROID_APP_ID/" 'lib/firebase_options.dart'
+          sed -i ''  "s/<ANDROID_DATABASE_URL>/$ANDROID_DATABASE_URL/" 'lib/firebase_options.dart'
+          sed -i ''  "s/<ANDROID_MESSAGE_SENDER_URL>/$ANDROID_MESSAGE_SENDER_URL/" 'lib/firebase_options.dart'
+          sed -i ''  "s/<ANDROID_PROJECT_ID>/$ANDROID_PROJECT_ID/" 'lib/firebase_options.dart'
+          sed -i ''  "s/<ANDROID_STORAGE_BUCKET>/$ANDROID_STORAGE_BUCKET/" 'lib/firebase_options.dart'
           cat lib/firebase_options.dart
       - uses: actions/setup-java@v2
         with:

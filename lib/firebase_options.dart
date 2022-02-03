@@ -37,6 +37,14 @@ class DefaultFirebaseOptions {
     );
   }
 
-//<FLUTTERFIRE_CONFIG>
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: '<ANDROID_API_KEY>',
+    appId: '<ANDROID_APP_ID>',
+    messagingSenderId: '<ANDROID_MESSAGE_SENDER_ID>',
+    projectId: '<ANDROID_PROJECT_ID>',
+    databaseURL: '<ANDROID_DATABASE_URL>',
+    storageBucket: '<ANDROID_STORAGE_BUCKET>',
+  );
 
 }
