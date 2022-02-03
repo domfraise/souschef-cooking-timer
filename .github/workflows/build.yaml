@@ -12,16 +12,15 @@ jobs:
       ANDROID_STORAGE_BUCKET: ${{secrets.ANDROID_STORAGE_BUCKET}}
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          pwd;
-          ls;
-          sed -ie "s/ANDROID_API_KEY/${ANDROID_API_KEY}/g" ./lib/firebase_options.dart;
-          sed -ie "s/ANDROID_APP_ID/${ANDROID_APP_ID}/g" ./lib/firebase_options.dart;
-          sed -ie "s/ANDROID_DATABASE_URL/${ANDROID_DATABASE_URL}/g" ./lib/firebase_options.dart;
-          sed -ie "s/ANDROID_MESSAGE_SENDER_URL/${ANDROID_MESSAGE_SENDER_URL}/g" ./lib/firebase_options.dart;
-          sed -ie "s/ANDROID_PROJECT_ID/${ANDROID_PROJECT_ID}/g" ./lib/firebase_options.dart;
-          sed -ie "s/ANDROID_STORAGE_BUCKET/${ANDROID_STORAGE_BUCKET}/g" ./lib/firebase_options.dart;
-          cat lib/firebase_options.dart;
+      - run:   pwd;
+      - run:    ls;
+      - run:   sed -ie "s/ANDROID_API_KEY/${ANDROID_API_KEY}/g" ./lib/firebase_options.dart;
+      - run:   sed -ie "s/ANDROID_APP_ID/${ANDROID_APP_ID}/g" ./lib/firebase_options.dart;
+      - run:   sed -ie "s/ANDROID_DATABASE_URL/${ANDROID_DATABASE_URL}/g" ./lib/firebase_options.dart;
+      - run:   sed -ie "s/ANDROID_MESSAGE_SENDER_URL/${ANDROID_MESSAGE_SENDER_URL}/g" ./lib/firebase_options.dart;
+      - run:   sed -ie "s/ANDROID_PROJECT_ID/${ANDROID_PROJECT_ID}/g" ./lib/firebase_options.dart;
+      - run:   sed -ie "s/ANDROID_STORAGE_BUCKET/${ANDROID_STORAGE_BUCKET}/g" ./lib/firebase_options.dart;
+      - run:   cat lib/firebase_options.dart;
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
