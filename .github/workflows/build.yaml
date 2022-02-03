@@ -22,7 +22,7 @@ jobs:
       - run:   cat lib/firebase_options.dart;
       - run: |
           echo "${{ secrets.SOUSCHEF_JKS}}" > souschef.keystore.asc
-          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch souschef.keystore.asc > ./android/souschef.jks
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch souschef.keystore.asc > ./android/souschefkey.jks
           ls android
       - uses: actions/setup-java@v2
         with:
