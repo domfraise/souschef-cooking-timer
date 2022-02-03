@@ -15,12 +15,12 @@ jobs:
       - run: |
           pwd
           ls
-          sed -i ''  "s/<ANDROID_API_KEY>/$ANDROID_API_KEY/" 'lib/firebase_options.dart'
-          sed -i ''  "s/<ANDROID_APP_ID>/$ANDROID_APP_ID/" 'lib/firebase_options.dart'
-          sed -i ''  "s/<ANDROID_DATABASE_URL>/$ANDROID_DATABASE_URL/" 'lib/firebase_options.dart'
-          sed -i ''  "s/<ANDROID_MESSAGE_SENDER_URL>/$ANDROID_MESSAGE_SENDER_URL/" 'lib/firebase_options.dart'
-          sed -i ''  "s/<ANDROID_PROJECT_ID>/$ANDROID_PROJECT_ID/" 'lib/firebase_options.dart'
-          sed -i ''  "s/<ANDROID_STORAGE_BUCKET>/$ANDROID_STORAGE_BUCKET/" 'lib/firebase_options.dart'
+          sed -i  "s/<ANDROID_API_KEY>/$ANDROID_API_KEY/" 'lib/firebase_options.dart'
+          sed -i  "s/<ANDROID_APP_ID>/$ANDROID_APP_ID/" 'lib/firebase_options.dart'
+          sed -i  "s/<ANDROID_DATABASE_URL>/$ANDROID_DATABASE_URL/" 'lib/firebase_options.dart'
+          sed -i  "s/<ANDROID_MESSAGE_SENDER_URL>/$ANDROID_MESSAGE_SENDER_URL/" 'lib/firebase_options.dart'
+          sed -i  "s/<ANDROID_PROJECT_ID>/$ANDROID_PROJECT_ID/" 'lib/firebase_options.dart'
+          sed -i  "s/<ANDROID_STORAGE_BUCKET>/$ANDROID_STORAGE_BUCKET/" 'lib/firebase_options.dart'
           cat lib/firebase_options.dart
       - uses: actions/setup-java@v2
         with:
