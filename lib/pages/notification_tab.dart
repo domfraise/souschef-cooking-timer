@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/model/notification_model.dart';
+import 'package:souschef/model/notification_model.dart';
 
 class NotificationTab extends StatelessWidget {
   final List<NotificationModel> notifications;

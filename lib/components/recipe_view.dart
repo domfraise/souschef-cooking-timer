@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/components/phase_chip.dart';
-import 'package:souschef_cooking_timer/components/rename_dialogue.dart';
-import 'package:souschef_cooking_timer/model/recipe.dart';
+import 'package:souschef/components/phase_chip.dart';
+import 'package:souschef/components/rename_dialogue.dart';
+import 'package:souschef/model/recipe.dart';
 
 class RecipeView extends StatelessWidget {
   final Recipe recipe;

@@ -1,6 +1,6 @@
-import 'package:souschef_cooking_timer/model/ingredient_model.dart';
-import 'package:souschef_cooking_timer/model/phase.dart';
-import 'package:souschef_cooking_timer/model/timeline_item.dart';
+import 'ingredient_model.dart';
+import 'phase.dart';
+import 'timeline_item.dart';
 
 
 class Recipe {

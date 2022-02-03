@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/components/duration_view.dart';
-import 'package:souschef_cooking_timer/model/phase.dart';
+import 'package:souschef/components/duration_view.dart';
+import 'package:souschef/model/phase.dart';
 
 class PhaseChip extends StatelessWidget {
   final Function editPhaseCallback;

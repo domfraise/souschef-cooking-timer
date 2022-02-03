@@ -1,4 +1,4 @@
-package com.phraze.souschef_cooking_timer
+package com.phraze.souschef
 
 import io.flutter.embedding.android.FlutterActivity
 

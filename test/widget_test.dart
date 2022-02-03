@@ -8,7 +8,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_test/flutter_test.dart';
 //
-// import 'package:souschef_cooking_timer/main.dart';
+// import 'package:souschef/main.dart';
 //
 // void main() {
 //   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

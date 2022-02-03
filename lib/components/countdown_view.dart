@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/components/duration_view.dart';
+import 'package:souschef/components/duration_view.dart';
 
-import 'package:souschef_cooking_timer/model/timer_model.dart';
+import 'package:souschef/model/timer_model.dart';
 
 class CountdownView extends StatelessWidget {
   final TimerModel timer;

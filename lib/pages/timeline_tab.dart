@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/components/duration_view.dart';
-import 'package:souschef_cooking_timer/model/timeline_item.dart';
+import 'package:souschef/components/duration_view.dart';
+import 'package:souschef/model/timeline_item.dart';
 
 class TimelineTab extends StatelessWidget {
   final List<TimelineItem> allPhases;

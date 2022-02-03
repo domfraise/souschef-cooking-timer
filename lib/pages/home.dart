@@ -1,21 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/components/countdown_view.dart';
-import 'package:souschef_cooking_timer/components/custom_drawer.dart';
-import 'package:souschef_cooking_timer/components/ingredient_list_view.dart';
-import 'package:souschef_cooking_timer/components/rename_dialogue.dart';
-import 'package:souschef_cooking_timer/components/schedule_timer_dialogue.dart';
-import 'package:souschef_cooking_timer/components/splashscreen.dart';
-import 'package:souschef_cooking_timer/model/ingredient_model.dart';
-import 'package:souschef_cooking_timer/model/notification_model.dart';
-import 'package:souschef_cooking_timer/model/phase.dart';
-import 'package:souschef_cooking_timer/model/timer_model.dart';
-import 'package:souschef_cooking_timer/model/timer_state.dart';
-import 'package:souschef_cooking_timer/pages/edit_ingredient_page.dart';
-import 'package:souschef_cooking_timer/pages/edit_phase_page.dart';
-import 'package:souschef_cooking_timer/pages/notification_tab.dart';
-import 'package:souschef_cooking_timer/pages/timeline_tab.dart';
+import 'package:souschef/components/countdown_view.dart';
+import 'package:souschef/components/custom_drawer.dart';
+import 'package:souschef/components/ingredient_list_view.dart';
+import 'package:souschef/components/rename_dialogue.dart';
+import 'package:souschef/components/schedule_timer_dialogue.dart';
+import 'package:souschef/components/splashscreen.dart';
+import 'package:souschef/model/ingredient_model.dart';
+import 'package:souschef/model/notification_model.dart';
+import 'package:souschef/model/phase.dart';
+import 'package:souschef/model/timer_model.dart';
+import 'package:souschef/model/timer_state.dart';
+import 'package:souschef/pages/edit_ingredient_page.dart';
+import 'package:souschef/pages/edit_phase_page.dart';
+import 'package:souschef/pages/notification_tab.dart';
+import 'package:souschef/pages/timeline_tab.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class HomePage extends StatefulWidget {

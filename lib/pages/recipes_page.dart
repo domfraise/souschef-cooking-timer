@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/components/custom_drawer.dart';
-import 'package:souschef_cooking_timer/components/recipe_view.dart';
-import 'package:souschef_cooking_timer/model/recipe.dart';
-import 'package:souschef_cooking_timer/model/timer_model.dart';
+import 'package:souschef/components/custom_drawer.dart';
+import 'package:souschef/components/recipe_view.dart';
+import 'package:souschef/model/recipe.dart';
+import 'package:souschef/model/timer_model.dart';
 
 class RecipesPage extends StatefulWidget {
   final Future<TimerModel> currentTimerFuture;

@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:souschef_cooking_timer/model/timer_model.dart';
+import 'package:souschef/model/timer_model.dart';
 
 class BackgroundService{
   static const String CHANNEL_NAME = 'com.phraze.souschef/background';

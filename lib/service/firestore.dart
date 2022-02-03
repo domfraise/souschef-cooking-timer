@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:developer';
-import 'package:souschef_cooking_timer/model/recipe.dart';
+import 'package:souschef/model/recipe.dart';
 
 class FirestoreService {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();

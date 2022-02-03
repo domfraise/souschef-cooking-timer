@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/model/phase.dart';
+import 'package:souschef/model/phase.dart';
 
 class EditPhasePage extends StatefulWidget {
   final Phase phase;

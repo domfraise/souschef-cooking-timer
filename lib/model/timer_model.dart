@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:souschef_cooking_timer/model/clock.dart';
-import 'package:souschef_cooking_timer/model/recipe.dart';
-import 'package:souschef_cooking_timer/model/timer_state.dart';
+import 'package:souschef/model/clock.dart';
+import 'package:souschef/model/recipe.dart';
+import 'package:souschef/model/timer_state.dart';
 
 class TimerModel {
   Clock clock = Clock();

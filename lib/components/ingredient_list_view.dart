@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/components/duration_view.dart';
-import 'package:souschef_cooking_timer/components/phase_chip.dart';
-import 'package:souschef_cooking_timer/model/ingredient_model.dart';
-import 'package:souschef_cooking_timer/model/phase.dart';
+import 'package:souschef/components/duration_view.dart';
+import 'package:souschef/components/phase_chip.dart';
+import 'package:souschef/model/ingredient_model.dart';
+import 'package:souschef/model/phase.dart';
 
 class IngredientListView extends StatelessWidget {
   final IngredientModel ingredient;

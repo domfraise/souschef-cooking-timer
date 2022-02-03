@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/components/intro_slider.dart';
-import 'package:souschef_cooking_timer/pages/privacy_policy.dart';
+import 'package:souschef/components/intro_slider.dart';
+import 'package:souschef/pages/privacy_policy.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override

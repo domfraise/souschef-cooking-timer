@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:souschef_cooking_timer/components/duration_view.dart';
-import 'package:souschef_cooking_timer/model/ingredient_model.dart';
-import 'package:souschef_cooking_timer/model/phase.dart';
-import 'package:souschef_cooking_timer/model/timer_state.dart';
-import 'package:souschef_cooking_timer/pages/edit_phase_page.dart';
+import 'package:souschef/components/duration_view.dart';
+import 'package:souschef/model/ingredient_model.dart';
+import 'package:souschef/model/phase.dart';
+import 'package:souschef/model/timer_state.dart';
+import 'package:souschef/pages/edit_phase_page.dart';
 
 class EditIngredientPage extends StatefulWidget {
   final IngredientModel ingredient;
