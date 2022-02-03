@@ -4,7 +4,7 @@ jobs:
   build-app-bundle:
     runs-on: ubuntu-latest
     env:
-      FLUTTER_FIRE: ${secrets.FLUTTERFIRE_CONFIG}
+      FLUTTER_FIRE: ${{secrets.FLUTTERFIRE_CONFIG}}
     steps:
       - uses: actions/checkout@v2
       - run: |
