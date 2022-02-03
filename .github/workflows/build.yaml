@@ -22,9 +22,9 @@ jobs:
           sed -ie "s|ANDROID_STORAGE_BUCKET|${ANDROID_STORAGE_BUCKET}|g" ./lib/firebase_options.dart;
       - name: "Inject keystore properties"
         run: |
-          sed -ie "s|storePassword=|storePassword=${{ secrets.KEYSTORE_PASSWORD }}|g" ./android/key.propeties
-          sed -ie "s|keyPassword=|keyPassword=${{ secrets.KEYSTORE_PASSWORD }}|g" ./android/key.propeties
-          cat ./android/key.propeties
+          sed -ie "s|storePassword=|storePassword=${{ secrets.KEYSTORE_PASSWORD }}|g" ./android/key.properties
+          sed -ie "s|keyPassword=|keyPassword=${{ secrets.KEYSTORE_PASSWORD }}|g" ./android/key.properties
+          cat ./android/key.properties
       - name: "Inject keystore"
         run: |
           echo "${{ secrets.SOUSCHEF_JKS}}" > souschef.keystore.asc
