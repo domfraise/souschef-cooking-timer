@@ -1,0 +1,7 @@
+name: Build flutter application
+on: [push]
+jobs:
+  build-app-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
