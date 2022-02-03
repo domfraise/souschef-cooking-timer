@@ -8,6 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
+          pwd
+          ls
           sed -i ''  "s/\/\/<FLUTTERFIRE_CONFIG>/$FLUTTER_FIRE/" 'lib/firebase_options.dart'
           cat lib/firebase_options.dart
       - uses: actions/setup-java@v2
