@@ -12,15 +12,21 @@ jobs:
       ANDROID_STORAGE_BUCKET: ${{secrets.ANDROID_STORAGE_BUCKET}}
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: "Inject firebase properties"
+        run: |
           sed -ie "s|ANDROID_API_KEY|${ANDROID_API_KEY}|g" ./lib/firebase_options.dart;
           sed -ie "s|ANDROID_APP_ID|${ANDROID_APP_ID}|g" ./lib/firebase_options.dart;
           sed -ie "s|ANDROID_DATABASE_URL|${ANDROID_DATABASE_URL}|g" ./lib/firebase_options.dart;
           sed -ie "s|ANDROID_MESSAGE_SENDER_ID|${ANDROID_MESSAGE_SENDER_ID}|g" ./lib/firebase_options.dart;
           sed -ie "s|ANDROID_PROJECT_ID|${ANDROID_PROJECT_ID}|g" ./lib/firebase_options.dart;
           sed -ie "s|ANDROID_STORAGE_BUCKET|${ANDROID_STORAGE_BUCKET}|g" ./lib/firebase_options.dart;
-      - run:   cat lib/firebase_options.dart;
-      - run: |
+      - name: "Inject keystore properties"
+        run: |
+          sed -ie "s|storePassword=|storePassword=${{ secrets.KEYSTORE_PASSWORD }}|g" ./android/key.propeties
+          sed -ie "s|keyPassword=|keyPassword=${{ secrets.KEYSTORE_PASSWORD }}|g" ./android/key.propeties
+          cat ./android/key.propeties
+      - name: "Inject keystore"
+        run: |
           echo "${{ secrets.SOUSCHEF_JKS}}" > souschef.keystore.asc
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch souschef.keystore.asc > ./android/souschefkey.jks
           ls android
