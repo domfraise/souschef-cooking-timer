@@ -7,20 +7,23 @@ jobs:
       ANDROID_API_KEY: ${{secrets.ANDROID_API_KEY}}
       ANDROID_APP_ID: ${{secrets.ANDROID_APPID}}
       ANDROID_DATABASE_URL: ${{secrets.ANDROID_DATABASE_URL}}
-      ANDROID_MESSAGE_SENDER_URL: ${{secrets.ANDROID_MESSAGE_SENDER_URL}}
+      ANDROID_MESSAGE_SENDER_ID: ${{secrets.ANDROID_MESSAGE_SENDER_ID}}
       ANDROID_PROJECT_ID: ${{secrets.ANDROID_PROJECT_ID}}
       ANDROID_STORAGE_BUCKET: ${{secrets.ANDROID_STORAGE_BUCKET}}
     steps:
       - uses: actions/checkout@v2
-      - run:   pwd;
-      - run:    ls;
-      - run:   sed -ie "s|ANDROID_API_KEY|${ANDROID_API_KEY}|g" ./lib/firebase_options.dart;
-      - run:   sed -ie "s|ANDROID_APP_ID|${ANDROID_APP_ID}|g" ./lib/firebase_options.dart;
-      - run:   sed -ie "s|ANDROID_DATABASE_URL|${ANDROID_DATABASE_URL}|g" ./lib/firebase_options.dart;
-      - run:   sed -ie "s|ANDROID_MESSAGE_SENDER_URL|${ANDROID_MESSAGE_SENDER_URL}|g" ./lib/firebase_options.dart;
-      - run:   sed -ie "s|ANDROID_PROJECT_ID|${ANDROID_PROJECT_ID}|g" ./lib/firebase_options.dart;
-      - run:   sed -ie "s|ANDROID_STORAGE_BUCKET|${ANDROID_STORAGE_BUCKET}|g" ./lib/firebase_options.dart;
+      - run: |
+          sed -ie "s|ANDROID_API_KEY|${ANDROID_API_KEY}|g" ./lib/firebase_options.dart;
+          sed -ie "s|ANDROID_APP_ID|${ANDROID_APP_ID}|g" ./lib/firebase_options.dart;
+          sed -ie "s|ANDROID_DATABASE_URL|${ANDROID_DATABASE_URL}|g" ./lib/firebase_options.dart;
+          sed -ie "s|ANDROID_MESSAGE_SENDER_ID|${ANDROID_MESSAGE_SENDER_ID}|g" ./lib/firebase_options.dart;
+          sed -ie "s|ANDROID_PROJECT_ID|${ANDROID_PROJECT_ID}|g" ./lib/firebase_options.dart;
+          sed -ie "s|ANDROID_STORAGE_BUCKET|${ANDROID_STORAGE_BUCKET}|g" ./lib/firebase_options.dart;
       - run:   cat lib/firebase_options.dart;
+      - run: |
+          echo "${{ secrets.SOUSCHEF_JKS}}" > souschef.keystore.asc
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch souschef.keystore.asc > ./android/souschef.jks
+          ls android
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
