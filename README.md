@@ -2,19 +2,29 @@
 
 A smart cooking timer
 
-## Getting Started
+## Local Set up
+Install flutter
+`brew install flutter`
 
-This project is a starting point for a Flutter application.
+Install java
+`brew install java@11`
 
-A few resources to get you started if this is your first Flutter project:
+install flutter fire
+`brew install flutterfire`
+`flutterfire init`
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Copy values into key.properties from secure storage
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Release
+### Auto
+[Optional] update version in pubspec.yaml and version name in app/build.gradle file
+* Push to origin main to trigger insider testing release.
+* Run Promote build job to push to production
+
+
+### Manual
 
 * Update version in pubspec,
 * Update flutter version code and name in build.gradle
 * `flutter build appbundle`
+* upload app bundle to google play

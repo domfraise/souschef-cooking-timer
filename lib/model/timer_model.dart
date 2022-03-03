@@ -101,8 +101,6 @@ class TimerModel {
           print("app lag detected");
           clock.forceTicks(totalTimeRemaining.inSeconds - serviceTotalTimeRemaining);
         }
-
-
       }
     });
   }
