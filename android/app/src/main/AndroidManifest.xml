@@ -2,7 +2,7 @@
     package="com.phraze.souschef">
    <application
         android:label="souschef"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_circle">
         <activity
             android:name=".MainActivity"
             android:exported="true"
