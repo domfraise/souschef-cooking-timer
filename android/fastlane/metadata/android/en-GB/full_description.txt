@@ -1,0 +1,23 @@
+"So if I need dinner to be ready by 7:00, I'll need to put in the chicken at 5:35. But I also need to let it rest for 10 minutes afterwards. And the vegetables only need 20 minutes, so what time do I need to put those in?"
+
+If this sort of train of thought sounds familiar, then Sous Chef is here to help you!
+
+
+Simply enter how long each ingredient will take and press play. The ingredient that takes the longest will start first, with the other ingredients starting later to ensure all ingredients finish at the same time.
+
+Got an ingredient with multiple steps? No problem. Just add multiple phases to that ingredient, you'll get a notification when one phase is finishing and the next one is starting.
+
+
+Key Features:
+
+* Schedule timers - Just tell Souschef when you want all your dishes to be ready by and you'll be notified when it's time to start cooking!
+
+* Pause ingredients - Does one dish need a couple of extra minutes? Just pause the ingredient and the other timers will carry on. Resume once you're ready for that ingredient to continue.
+
+* Multiple Recipes - You can set up multiple timers for different meals you cook so you don't need to re-create your timers each time you cook a different meal.
+
+
+
+
+
+Icon Credit - https://www.freepik.com
