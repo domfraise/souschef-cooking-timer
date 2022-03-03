@@ -53,4 +53,6 @@ jobs:
         run: sudo gem install fastlane
 
       - name: "Upload to internal testing"
-        run: fastlane supply --aab ../build/app/outputs/bundle/release/app-release.aab --track internal
+        run: |
+          cd android
+          fastlane supply --aab ../build/app/outputs/bundle/release/app-release.aab --track internal

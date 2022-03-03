@@ -11,3 +11,4 @@ Features
 Bugs
 * Service does not load on first play?
 * intro slider does not show on first app load
+* recipes not persisting between installs?
