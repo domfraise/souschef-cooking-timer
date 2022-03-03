@@ -40,6 +40,8 @@ jobs:
         run: |
           chmod +x bump-version-number.sh
           git add ./android/app/build.gradle
+          git config --global user.email "domfraise@gmail.com"
+          git config --global user.name "Github CI"
           git commit -m "Bump Version Code"
           git push
       - name: "Install Ruby"
