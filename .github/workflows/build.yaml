@@ -39,6 +39,7 @@ jobs:
       - name: "Bump Version"
         run: |
           chmod +x bump-version-number.sh
+          ./bump-version-number.sh
           git add ./android/app/build.gradle
           git config --global user.email "domfraise@gmail.com"
           git config --global user.name "Github CI"
