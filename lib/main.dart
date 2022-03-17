@@ -14,11 +14,10 @@ import 'package:souschef/model/notification_model.dart';
 import 'package:souschef/model/recipe.dart';
 import 'package:souschef/model/timer_model.dart';
 import 'package:souschef/pages/recipes_page.dart';
-import 'package:souschef/service/background_service.dart';
 import 'package:souschef/service/firestore.dart';
-import 'firebase_options.dart';
 
 import './pages/home.dart';
+import 'firebase_options.dart';
 
 var flutterLocalNotificationsPlugin;
 
@@ -270,13 +269,17 @@ class SousChefAppState extends State<SousChefApp> {
   }
 
   _configureNotifications() async {
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings("@mipmap/launcher_icon");
-    var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = new InitializationSettings(
-        android:initializationSettingsAndroid, iOS:initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
+
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings("@mipmap/launcher_notification");
+    final IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings(
+        onDidReceiveLocalNotification: (x,y,z,j){}); //TODO implement for IOS
+    final MacOSInitializationSettings initializationSettingsMacOS = MacOSInitializationSettings();
+    final InitializationSettings initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS,
+        macOS: initializationSettingsMacOS);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
   }
 
   void onSelectNotification(String? payload) async {
@@ -343,7 +346,7 @@ class SousChefAppState extends State<SousChefApp> {
   Future _showNotification(String title, String body) async {
     var groupKey = 'com.phraze.souschef.notifications';
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        title, 'your channel name',
+        title, 'Sous Chef Timer',
         importance: Importance.high,
         priority: Priority.low,
         groupKey: groupKey);
