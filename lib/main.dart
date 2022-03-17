@@ -91,8 +91,8 @@ void onStart() {
   Timer.periodic(Duration(seconds: 1), (timer) async {
     if (!(await service.isServiceRunning())) timer.cancel();
     service.setNotificationInfo(
-      title: "Ongoing Timer",
-      content: "Remaining: ${totalTimeRemaining}",
+      title: "Running Timer",
+      content: "Next Alert In: ${DurationView.getDisplayTime(new Duration(seconds: timeUntilNextAlert))}",
     );
     if (running) {
       totalTimeRemaining -= 1;
