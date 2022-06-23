@@ -130,13 +130,11 @@ class SousChefAppState extends State<SousChefApp> {
   @override
   void initState() {
     super.initState();
-    // Firebase.initializeApp();
-    firestore.getUserDocument();
     _configureNotifications();
     currentRecipe = Recipe.empty();
     setState(() {
-      timerFuture = firestore
-          .getFirstRecipe(notify)
+      timerFuture = firestore.getUserDocument()
+          .then((value) => firestore.getFirstRecipe(notify))
           .then((value) => TimerModel(recipe:value, alertCallback:notify, showProgress:_showProgressNotification));
     });
   }
