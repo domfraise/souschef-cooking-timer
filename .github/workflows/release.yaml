@@ -1,0 +1,18 @@
+name: Build flutter application
+on:
+  workflow_dispatch
+jobs:
+  build-app-bundle:
+    name: "Promote to production"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Inject Fastlane Credentials"
+        run: echo "${{ secrets.FASTLANE_ANDOID_KEY_FILE }}" | base64 --decode > ./android/pc-api-4641087491918829609-427-0ad0f6774ff3.json
+      - name: "Install Fastlane"
+        run: sudo gem install fastlane
+
+      - name: "Promote"
+        run: |
+          cd android
+          fastlane supply --track internal --track_promote_to "production" --skip_upload_apk true --skip_upload_aab true --skip_upload_metadata true --skip_upload_changelogs true --skip_upload_images true --skip_upload_screenshots true
